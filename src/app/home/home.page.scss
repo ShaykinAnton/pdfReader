@@ -1,1 +1,36 @@
-
+* {
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}
+.example-3 {
+  padding: 8px;
+}
+.example-3 .filupp > input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.example-3 .filupp {
+  position: relative;
+  display: block;
+  background: #242424;
+  line-height: 30px;
+  width: 100%;
+  color: #fff;
+  cursor: pointer;
+  padding-bottom: 6px;
+  padding-top: 6px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.5);
+}
+.example-3 .filupp > span {
+  margin: auto;
+}

@@ -1,5 +1,8 @@
 {
   "name": "pdfReader",
-  "integrations": {},
-  "type": "angular"
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "5d657e37"
 }

@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { PdfViewerComponent, PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    PdfViewerModule,
     RouterModule.forChild([
       {
         path: '',
