@@ -1,5 +1,5 @@
 <ion-content fullscreen="true">
-  <pdf-viewer (click)="click()" [src]="pdfSrc" [render-text]="true" [render-text-mode]="2" [original-size]="false"
+  <pdf-viewer (click)="click()" [src]="pdfSrc" [render-text]="true" [render-text-mode]="1" [original-size]="false"
     [show-all]="false" [page]="pg" [autoresize]="true" [zoom]="zm" (after-load-complete)="afterLoadComplete($event)"
     style="max-width:match-parent;
               display: block;"></pdf-viewer>
@@ -47,7 +47,7 @@
       </ion-col>
       <ion-col size="7">
         <ion-range min="1" [max]="totalPages" step="1" snaps="true" pin="true" [value]="pg"
-          (ionChange)='setpg($event.target.value)'></ion-range>
+          [debounce]="200" (ionChange)='setpg($event.target.value)'></ion-range>
       </ion-col>
       <ion-col text-center>
         <ion-button (click)="next()" [disabled]="pg === totalPages">

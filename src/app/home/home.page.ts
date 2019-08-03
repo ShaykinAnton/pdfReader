@@ -1,5 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
+
+const zoomScale = 0.2;
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,8 +20,8 @@ export class HomePage {
   constructor() { }
 
   @ViewChild(PdfViewerComponent, null) private pdfComponent: PdfViewerComponent;
-  cors = 'https://cors-anywhere.herokuapp.com/';
-  pdfSrc = this.cors + 'http://www.pdf995.com/samples/pdf.pdf';
+
+  pdfSrc = '';
 
   afterLoadComplete(pdfData: any) {
     this.totalPages = pdfData.numPages;
@@ -51,11 +54,11 @@ export class HomePage {
   }
 
   zoomIn() {
-    this.zm += 0.1;
+    this.zm += zoomScale;
   }
   zoomOut() {
     if (this.zm > 1.0) {
-      this.zm -= 0.1;
+      this.zm -= zoomScale;
     }
   }
   click() {
