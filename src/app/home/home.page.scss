@@ -1,12 +1,7 @@
-* {
-  -webkit-user-select: auto;
-  -moz-user-select: auto;
-  -ms-user-select: auto;
-  user-select: auto;
-}
 .example-3 {
   padding: 8px;
 }
+
 .example-3 .filupp > input[type="file"] {
   position: absolute;
   width: 1px;
@@ -33,4 +28,35 @@
 }
 .example-3 .filupp > span {
   margin: auto;
+}
+
+simple-pdf-viewer, ion-text {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+ion-button{
+  font-family: 'Comic Neue', sans-serif;
+  font-weight: 500;
+  font-size: 0.7em;
+  line-height: 1.0;
 }

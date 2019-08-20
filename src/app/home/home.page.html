@@ -1,60 +1,116 @@
-<ion-content fullscreen="true">
-  <pdf-viewer (click)="click()" [src]="pdfSrc" [render-text]="true" [render-text-mode]="1" [original-size]="false"
-    [show-all]="false" [page]="pg" [autoresize]="true" [zoom]="zm" (after-load-complete)="afterLoadComplete($event)"
-    style="max-width:match-parent;
-              display: block;"></pdf-viewer>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">.
+<ion-app>
 
-  <ion-fab class="fab" vertical="top" horizontal="start" slot="fixed" style="width: 100%">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4">
-          <div class="example-3">
-            <label for="file" class="filupp">
-              <span class="filupp-file-name js-value">Открыть</span>
-              <input type="file" name="file" (change)="sel()" id="file">
-            </label>
-          </div>
-        </ion-col>
-        <ion-col>
-          <ion-searchbar (input)='search($event.target.value)'></ion-searchbar>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-fab>
-  <ion-fab class="fab" vertical="center" horizontal="end" slot="fixed">
-    <ion-grid>
-      <ion-row>
-        <ion-button (click)="zoomIn()">
-          <ion-icon name="add"></ion-icon>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons>
+        <ion-button (click)="closeDocument()">
+          <ion-icon name="home"></ion-icon>
         </ion-button>
-      </ion-row>
-      <ion-row>
-        <ion-button (click)="zoomOut()">
-          <ion-icon name="remove"></ion-icon>
-        </ion-button>
-      </ion-row>
-    </ion-grid>
-  </ion-fab>
-</ion-content>
 
-<ion-fab class="fab" vertical="bottom" horizontal="0px" slot="fixed" style="width: 100%">
-  <ion-grid style="padding: 0px">
-    <ion-row>
-      <ion-col text-center>
-        <ion-button (click)="prev()" [disabled]="pg === 1">
-          <ion-icon name="arrow-dropleft"></ion-icon>
+        <ion-searchbar id="searchBar" (input)='search($event.target.value)' hidden></ion-searchbar>
+        <ion-title id="title">PubyDoc</ion-title>
+        <ion-button (click)="searchToggle()">
+          <ion-icon id="searchIcon" slot="end" name="search"></ion-icon>
         </ion-button>
-      </ion-col>
-      <ion-col size="7">
-        <ion-range min="1" [max]="totalPages" step="1" snaps="true" pin="true" [value]="pg"
-          [debounce]="200" (ionChange)='setpg($event.target.value)'></ion-range>
-      </ion-col>
-      <ion-col text-center>
-        <ion-button (click)="next()" [disabled]="pg === totalPages">
-          <ion-icon name="arrow-dropright"></ion-icon>
-        </ion-button>
-      </ion-col>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content fullscreen="true" id="content">
+    <div #fileUpload class="fileUpload">
+      <span>Открыть</span>
+      <input type="file" id="file" (change)="openFile()" class="upload" />
+    </div>
 
-    </ion-row>
-  </ion-grid>
-</ion-fab>
+    <pinch-zoom>
+      <section id="viewer">
+        <simple-pdf-viewer #pdfViewer removePageBorders="true" (onLoadComplete)="afterLoadComplete($event)"
+          (onProgress)="onProgressed($event)" style="max-width:match-parent; display: block;"></simple-pdf-viewer>
+      </section>
+    </pinch-zoom>
+    <ion-fab class="fab" vertical="center" horizontal="end" slot="fixed">
+      <ion-grid>
+        <ion-row>
+          <ion-button (click)="zoomIn()">
+            <ion-icon name="add"></ion-icon>
+          </ion-button>
+        </ion-row>
+        <ion-row>
+          <ion-button (click)="zoomOut()">
+            <ion-icon name="remove"></ion-icon>
+          </ion-button>
+        </ion-row>
+      </ion-grid>
+    </ion-fab>
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="prev()">
+        <ion-icon name="arrow-dropleft"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="next()">
+        <ion-icon name="arrow-dropright"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+
+
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="primary">
+        <ion-button (click)="openTableOfContents()">Оглавление</ion-button>
+        <ion-button (click)="openPreview()">Превью</ion-button>
+        <ion-input (keyup.enter)="sendForm($event.target)" id="curpage" [value]="pg" type="number" style="width: 30px; max-width:30px;"
+           align="right"></ion-input>
+        <ion-text id="maxpage">/~</ion-text>
+        <ion-button (click)="openPopup($event)">Поделиться</ion-button>
+        <ion-button (click)="createbookmark()">Закладка</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+
+  <ion-menu menuId="mymenu" side="start" content-id="content" swipe-gesture="false">
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-title>Оглавление</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item *ngFor="let term of yourArray;" (click)="navTo(term.dest)" detail>
+          {{term.title}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-menu menuId="mymenu2" side="start" content-id="content" swipe-gesture="false">
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-title>Превью</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-grid>
+        <ion-row *ngFor="let item of pics">
+          <ion-col>
+            <div class="ion-text-center" (click)="setpg(item[0].text)">
+              <ion-img [src]="item[0].src"></ion-img>
+              <ion-text>{{item[0].text}}</ion-text>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-center" (click)="setpg(item[1].text)">
+              <ion-img [src]="item[1].src"></ion-img>
+              <ion-text *ngIf="item[1].text">{{item[1].text}}</ion-text>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-content>
+  </ion-menu>
+
+</ion-app>

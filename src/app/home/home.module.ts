@@ -1,3 +1,4 @@
+import { MyPopoverComponent } from './../my-popover/my-popover.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -5,14 +6,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { PdfViewerComponent, PdfViewerModule } from 'ng2-pdf-viewer';
+
+import { SimplePdfViewerModule } from 'simple-pdf-viewer';
+import { PinchZoomModule } from 'ngx-pinch-zoom';
+
+import 'hammerjs';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PdfViewerModule,
+    SimplePdfViewerModule,
+    PinchZoomModule,
     RouterModule.forChild([
       {
         path: '',
@@ -20,6 +26,7 @@ import { PdfViewerComponent, PdfViewerModule } from 'ng2-pdf-viewer';
       }
     ])
   ],
-  declarations: [HomePage]
+  entryComponents: [MyPopoverComponent],
+  declarations: [HomePage, MyPopoverComponent]
 })
-export class HomePageModule {}
+export class HomePageModule { }
