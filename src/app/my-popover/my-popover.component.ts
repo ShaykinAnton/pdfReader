@@ -9,8 +9,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 })
 export class MyPopoverComponent implements OnInit {
 
-  text = 'Check out the Ionic Academy!';
-  url = 'https://ionicacademy.com';
+  text = 'TEXT!';
   curFile: any;
   constructor(public popoverController: PopoverController, private socialSharing: SocialSharing,
               private navParams: NavParams) { }
